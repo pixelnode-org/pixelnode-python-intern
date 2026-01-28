@@ -1,4 +1,7 @@
-def add(a:int, b:int) -> int:
+# Function : add() For adding two numbers
+
+
+def add(a: int, b: int) -> int:
     """Return the sum of two numbers.
 
     Parameters:
@@ -8,4 +11,4 @@ def add(a:int, b:int) -> int:
     Returns:
         int: The sum of a and b.
     """
-    return a+b
+    return a + b
