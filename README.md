@@ -9,3 +9,5 @@ Project purpose
 Setup steps
 
 How to run tests
+
+Author : Harshit
