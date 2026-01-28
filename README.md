@@ -10,4 +10,5 @@ Setup steps
 
 How to run tests
 
-Author : Harshit
+
+Auther - Akhil Singh
