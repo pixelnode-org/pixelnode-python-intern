@@ -1,9 +1,23 @@
-#Function : add() For adding two numbers 
+import pytest
+from app.math_utils import add
 
-def add(a:int, b:int) -> int:
-    """Return the sum of two numbers.    
-    Parameters:        
-        a (int): The first number.        
-        b (int): The second number.    
-    Returns:        int: The sum of a and b.    """
-    return a+b
+
+def test_add_two_positive_numbers() -> None:
+    """
+    Test case for when adding two positive number.
+    """
+    assert add(2, 2) == 4
+
+
+def test_add_one_positive_one_zero() -> None:
+    """
+    Test case for when adding one positive number and zero.
+    """
+    assert add(2, 0) == 2
+
+
+def test_add_two_negative_numbers() -> None:
+    """
+    Test case for when adding two negative number.
+    """
+    assert add(-2, -3) == -5
