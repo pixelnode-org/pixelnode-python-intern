@@ -15,3 +15,14 @@ def test_add_one_positive_one_zero():
 def test_add_two_negative_numbers():
     # Test case 3: Both negative numbers
     assert add(-2, -3) == -5
+
+def test_add_raises_type_error_for_strings():
+    # Test case 4: Both inputs are strings
+    with pytest.raises(TypeError):
+        add("a", "a")
+
+def test_add_raises_type_error_for_mixed_types():
+    # Test case 5: One input is string, other is integer
+    with pytest.raises(TypeError):
+        add("a", 0)
+
