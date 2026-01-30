@@ -15,4 +15,8 @@ def add(first_number: int, second_number: int) -> int:
     Returns:
         int: The sum of first_number and second_number.
     """
+
+    if not isinstance(first_number, int) or not isinstance(second_number, int):
+        raise TypeError("Both inputs must be integers")
+    
     return first_number + second_number
