@@ -1,5 +1,5 @@
 import pytest
-from app.math_utils import add
+from src.app.math_utils import add
 
 
 def test_add_two_positive_numbers():
