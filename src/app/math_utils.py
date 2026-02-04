@@ -4,7 +4,7 @@
 Provide a function for adding two numbers.
 """
 
-def validate_integers(first_number,second_number):
+def validate_integers(first_number: int,second_number: int) -> None:
     """
     Validate that both are integers.
     
