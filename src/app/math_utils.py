@@ -4,19 +4,21 @@
 Provide a function for adding two numbers.
 """
 
-def validate_integers(first_number: int,second_number: int) -> None:
+
+def validate_integers(first_number: int, second_number: int) -> None:
     """
     Validate that both are integers.
-    
+
     Parameters:
         first_number: The first number to validate.
         second_number: The second number to validate.
 
-    Raise: 
+    Raise:
         TypeError: If either input is not integer.
     """
-    if not isinstance(first_number, int) or not isinstance(second_number, int):
+    if type(first_number) is not int or type(second_number) is not int:
         raise TypeError("Both inputs must be integers")
+
 
 def add(first_number: int, second_number: int) -> int:
     """Return the sum of two numbers.
@@ -28,6 +30,6 @@ def add(first_number: int, second_number: int) -> int:
     Returns:
         int: The sum of first_number and second_number.
     """
-    validate_integers(first_number,second_number)
-    
+    validate_integers(first_number, second_number)
+
     return first_number + second_number
