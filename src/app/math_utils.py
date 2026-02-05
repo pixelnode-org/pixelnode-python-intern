@@ -11,7 +11,7 @@ def validate_integers(first_number, second_number):
     Raises:
         TypeError: If either input is not an integer.
     """
-    if not isinstance(first_number, int) or not isinstance(second_number, int):
+    if type(first_number) is not int or type(second_number) is not int:
         raise TypeError("Both inputs must be integers.")
     
 

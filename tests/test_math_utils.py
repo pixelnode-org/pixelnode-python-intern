@@ -21,8 +21,19 @@ def test_add_raises_type_error_for_strings():
     with pytest.raises(TypeError):
         add("a", "a")
 
-def test_add_raises_type_error_for_mixed_types():
+def test_add_raises_type_error_for_mixed_types_strings():
     # Test case 5: One input is string, other is integer
     with pytest.raises(TypeError):
         add("a", 0)
+        add(0, "a")
 
+def test_add_raises_type_error_for_boolean():
+    # Test case 6: Both input is boolean
+    with pytest.raises(TypeError):
+        add(True, False)
+
+def test_add_raises_type_error_for_mixed_types_boolean():
+    # Test case 7: One input is boolean, other is integer
+    with pytest.raises(TypeError):
+        add(True, 5)
+        add(5, True)
