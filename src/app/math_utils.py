@@ -13,11 +13,9 @@ def validate_integers(first_number, second_number):
     """
     if type(first_number) is not int or type(second_number) is not int:
         raise TypeError("Both inputs must be integers.")
-    
 
-"""
-Provide a function for adding two numbers.
-"""
+
+# Provide a function for adding two numbers.
 
 
 def add(first_number: int, second_number: int) -> int:
@@ -31,6 +29,22 @@ def add(first_number: int, second_number: int) -> int:
         int: The sum of first_number and second_number.
     """
     validate_integers(first_number, second_number)
-    
+
     return first_number + second_number
 
+
+# Provide a function for subtracting two numbers.
+
+
+def sub(first_number: int, second_number: int) -> int:
+    """Return the difference of two numbers.
+    Parameters:
+        first_number (int): The first number.
+        second_number (int): The second number.
+
+    Returns:
+        int: The difference of first_number and second_number."""
+
+    validate_integers(first_number, second_number)
+
+    return first_number - second_number
