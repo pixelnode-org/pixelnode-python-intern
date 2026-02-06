@@ -1,9 +1,9 @@
 import pytest
-from src.app.math_utils import add
-from src.app.math_utils import subtract
-from src.app.math_utils import validate_integers
+from src.app.math_utils import add, subtract, validate_integers
 
+################################
 # Test cases for add function
+################################
 def test_add_two_positive_numbers() -> None:
     """
     Case: for when adding two positive number.
@@ -24,7 +24,9 @@ def test_add_two_negative_numbers() -> None:
     """
     assert add(-2, -3) == -5
 
+#####################################
 # Test cases for subtract function
+#####################################
 def test_subtract_two_positive_numbers() -> None:
     """
     Case: for when subtract two positive number.
@@ -44,7 +46,9 @@ def test_subtract_two_negative_numbers() -> None:
     """
     assert subtract(-2, -3) == 1
 
-
+#####################################
+# Test cases for TypeError Handling
+#####################################
 def test_validate_integers_raises_type_error_for_mixes_types_strings() -> None:
     """
     Case: for when validating different types of value with strings other then int.
