@@ -1,4 +1,4 @@
-import pytest
+
 from src.app.math_utils import add
 def test_add():
     #test case 1
