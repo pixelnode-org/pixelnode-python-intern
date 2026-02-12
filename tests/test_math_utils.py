@@ -1,79 +1,70 @@
 import pytest
-from src.app.math_utils import add, subtract, validate_integers
+from src.app.math_utils import add, subtract
 
 ################################
-# Test cases for add function
+# Valid input tests
 ################################
-def test_add_two_positive_numbers() -> None:
-    """
-    Case: for when adding two positive number.
-    """
-    assert add(2, 2) == 4
 
 
-def test_add_one_positive_one_zero() -> None:
+@pytest.mark.parametrize(
+    "a, b, expected",
+    [
+        (2, 2, 4),
+        (2, 0, 2),
+        (-2, -3, -5),
+    ],
+)
+def test_add_returns_correct_result_for_valid_integers(
+    a: int, b: int, expected: int
+) -> None:
     """
-    Case: for when adding one positive number and zero.
+    Verify that add() returns the correct result
+    for valid integer inputs.
     """
-    assert add(2, 0) == 2
+    assert add(a, b) == expected
 
 
-def test_add_two_negative_numbers() -> None:
+@pytest.mark.parametrize(
+    "a, b, expected",
+    [
+        (2, 2, 0),
+        (2, 0, 2),
+        (-2, -3, 1),
+    ],
+)
+def test_subtract_returns_correct_result_for_valid_integers(
+    a: int, b: int, expected: int
+) -> None:
     """
-    Case: for when adding two negative number.
+    Verify that subtract() returns the correct result
+    for valid integer inputs.
     """
-    assert add(-2, -3) == -5
-
-#####################################
-# Test cases for subtract function
-#####################################
-def test_subtract_two_positive_numbers() -> None:
-    """
-    Case: for when subtract two positive number.
-    """
-    assert subtract(2, 2) == 0
-
-def test_subtract_one_positive_one_zero() -> None:
-    """
-    Case: for when subtract one positive number and zero.
-    """
-    assert subtract(2, 0) == 2
+    assert subtract(a, b) == expected
 
 
-def test_subtract_two_negative_numbers() -> None:
-    """
-    Case: for when subtract two negative number.
-    """
-    assert subtract(-2, -3) == 1
+################################
+# Invalid input tests
+################################
 
-#####################################
-# Test cases for TypeError Handling
-#####################################
-def test_validate_integers_raises_type_error_for_mixes_types_strings() -> None:
+
+@pytest.mark.parametrize(
+    "func, a, b",
+    [
+        # String cases
+        (add, "a", 1),
+        (add, "a", "g"),
+        (subtract, "a", 1),
+        # Boolean cases
+        (add, True, True),
+        (add, 0, True),
+        (add, True, 0),
+        (subtract, True, 0),
+    ],
+)
+def test_operations_raise_type_error_for_invalid_inputs(func, a, b) -> None:
     """
-    Case: for when validating different types of value with strings other then int.
+    Verify that add() and subtract() raise TypeError
+    when given non-integer inputs.
     """
     with pytest.raises(TypeError):
-        validate_integers("a",0)
-
-def test_validate_integers_raises_type_error_for_strings() -> None:
-    """
-    Case: for when validating two string instead of int
-    """
-    with pytest.raises(TypeError):
-        validate_integers("a","g")
-        
-def test_validate_integers_raises_type_error_for_boolean() -> None:
-    """
-    Case: for when validating two boolean instead of int
-    """
-    with pytest.raises(TypeError):
-        validate_integers(True,True)
-
-def test_validate_integers_raises_type_error_for_mixes_types_boolean() -> None:
-    """
-    Case: for when validating different types of value with boolean other then int.
-    """
-    with pytest.raises(TypeError):
-        validate_integers(0,True)
-        validate_integers(True,0)
+        func(a, b)
