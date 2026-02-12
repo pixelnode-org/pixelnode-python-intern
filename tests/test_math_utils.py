@@ -42,6 +42,24 @@ def test_subtract_returns_correct_result_for_valid_integers(
     assert subtract(a, b) == expected
 
 
+@pytest.mark.parametrize(
+    "a, b, expected",
+    [
+        (2, 2, 4),
+        (2, 0, 0),
+        (-2, -3, 6),
+    ],
+)
+def test_multiply_returns_correct_result_for_valid_integers(
+    a: int, b: int, expected: int
+) -> None:
+    """
+    Verify that multiply() returns the correct result
+    for valid integer inputs.
+    """
+    assert multiply(a, b) == expected
+
+
 ################################
 # Invalid input tests
 ################################

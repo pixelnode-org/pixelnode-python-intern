@@ -36,7 +36,7 @@ def add(first_number: int, second_number: int) -> int:
 # Provide a function for subtracting two numbers.
 
 
-def sub(first_number: int, second_number: int) -> int:
+def subtract(first_number: int, second_number: int) -> int:
     """Return the difference of two numbers.
     Parameters:
         first_number (int): The first number.
@@ -48,3 +48,20 @@ def sub(first_number: int, second_number: int) -> int:
     validate_integers(first_number, second_number)
 
     return first_number - second_number
+
+
+# Provide a function for multiply two numbers.
+
+
+def multiply(first_number: int, second_number: int) -> int:
+    """Return the difference of two numbers.
+    Parameters:
+        first_number (int): The first number.
+        second_number (int): The second number.
+
+    Returns:
+        int: The multiplication of first_number and second_number."""
+
+    validate_integers(first_number, second_number)
+
+    return first_number * second_number
