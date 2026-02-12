@@ -1,5 +1,5 @@
 import pytest
-from src.app.math_utils import add, subtract
+from src.app.math_utils import add, subtract, multiply
 
 ################################
 # Valid input tests
@@ -41,6 +41,23 @@ def test_subtract_returns_correct_result_for_valid_integers(
     """
     assert subtract(a, b) == expected
 
+@pytest.mark.parametrize(
+    "a, b, expected",
+    [
+        (2, 2, 4),
+        (2, 0, 0),
+        (-2, -3, 6),
+    ],
+)
+def test_multiply_returns_correct_result_for_valid_integers(
+    a: int, b: int, expected: int
+) -> None:
+    """
+    Verify that multiply() returns the correct result
+    for valid integer inputs.
+    """
+    assert multiply(a, b) == expected
+
 
 ################################
 # Invalid input tests
@@ -54,11 +71,13 @@ def test_subtract_returns_correct_result_for_valid_integers(
         (add, "a", 1),
         (add, "a", "g"),
         (subtract, "a", 1),
+        (multiply,"a", 1),
         # Boolean cases
         (add, True, True),
         (add, 0, True),
         (add, True, 0),
         (subtract, True, 0),
+        (multiply, True, 0),
     ],
 )
 def test_operations_raise_type_error_for_invalid_inputs(func, a, b) -> None:
