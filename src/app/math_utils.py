@@ -1,9 +1,65 @@
-#Function : add() For adding two numbers 
+# Function : add() For adding two numbers
 
-def add(a:int, b:int) -> int:
-    """Return the sum of two numbers.    
-    Parameters:        
-        a (int): The first number.        
-        b (int): The second number.    
-    Returns:        int: The sum of a and b.    """
-    return a+b
+"""
+Provide a function for adding two numbers.
+"""
+
+
+def validate_integers(first_number: int, second_number: int) -> None:
+    """
+    Validate that both are integers.
+
+    Parameters:
+        first_number: The first number to validate.
+        second_number: The second number to validate.
+
+    Raise:
+        TypeError: If either input is not integer.
+    """
+    if type(first_number) is not int or type(second_number) is not int:
+        raise TypeError("Both inputs must be integers")
+
+
+def add(first_number: int, second_number: int) -> int:
+    """Return the sum of two numbers.
+
+    Parameters:
+        first_number (int): The first number.
+        second_number (int): The second number.
+
+    Returns:
+        int: The sum of first_number and second_number.
+    """
+    validate_integers(first_number, second_number)
+
+    return first_number + second_number
+
+
+def subtract(first_number: int, second_number: int) -> int:
+    """Return the subtraction of two numbers.
+
+    Parameters:
+        first_number (int): The first number.
+        second_number (int): The second number.
+
+    Returns:
+        int: The subtraction of first_number and second_number.
+    """
+    validate_integers(first_number, second_number)
+
+    return first_number - second_number
+
+
+def multiply(first_number: int, second_number: int) -> int:
+    """Return the multiplication of two numbers.
+
+    Parameters:
+        first_number (int): The first number.
+        second_number (int): The second number.
+
+    Returns:
+        int: The multiplication of first_number and second_number.
+    """
+    validate_integers(first_number, second_number)
+
+    return first_number * second_number

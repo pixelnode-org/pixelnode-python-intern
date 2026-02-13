@@ -1,14 +1,94 @@
 import pytest
-from app.math_utils import add
+from src.app.math_utils import add, subtract, multiply
 
-def test_add_two_positive_numbers():
-    #Test Case 1: For two positive numebers
-    assert add(2,2) == 4
+################################
+# Valid input tests
+################################
 
-def test_add_one_positive_one_zero():
-    #Test case 2: one positive and one zero number edge case
-    assert add(2,0) == 2
 
-def test_add_two_negative_numbers():
-    #Test case 3: Both negative numbers
-    assert add(-2,-3) == -5
+@pytest.mark.parametrize(
+    "a, b, expected",
+    [
+        (2, 2, 4),
+        (2, 0, 2),
+        (-2, -3, -5),
+    ],
+)
+def test_add_returns_correct_result_for_valid_integers(
+    a: int, b: int, expected: int
+) -> None:
+    """
+    Verify that add() returns the correct result
+    for valid integer inputs.
+    """
+    assert add(a, b) == expected
+
+
+@pytest.mark.parametrize(
+    "a, b, expected",
+    [
+        (2, 2, 0),
+        (2, 0, 2),
+        (-2, -3, 1),
+    ],
+)
+def test_subtract_returns_correct_result_for_valid_integers(
+    a: int, b: int, expected: int
+) -> None:
+    """
+    Verify that subtract() returns the correct result
+    for valid integer inputs.
+    """
+    assert subtract(a, b) == expected
+
+
+@pytest.mark.parametrize(
+    "a, b, expected",
+    [
+        (2, 2, 4),
+        (2, 0, 0),
+        (-2, -3, 6),
+    ],
+)
+def test_multiply_returns_correct_result_for_valid_integers(
+    a: int, b: int, expected: int
+) -> None:
+    """
+    Verify that multiply() returns the correct result
+    for valid integer inputs.
+    """
+    assert multiply(a, b) == expected
+
+
+################################
+# Invalid input tests
+################################
+
+
+@pytest.mark.parametrize(
+    "func, a, b",
+    [
+        # Float cases
+        (add, 2, 3.5),
+        (subtract, 1.5, 2),
+        (multiply, 2.0, 3),
+        # String cases
+        (add, "a", 1),
+        (add, "a", "g"),
+        (subtract, "a", 1),
+        (multiply, "a", 1),
+        # Boolean cases
+        (add, True, True),
+        (add, 0, True),
+        (add, True, 0),
+        (subtract, True, 0),
+        (multiply, True, 0),
+    ],
+)
+def test_operations_raise_type_error_for_invalid_inputs(func, a, b) -> None:
+    """
+    Verify that add(), subtract() and multiply() raise TypeError
+    when given non-integer inputs.
+    """
+    with pytest.raises(TypeError):
+        func(a, b)
