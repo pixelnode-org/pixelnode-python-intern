@@ -1,11 +1,11 @@
-def add(a: int, b: int) -> int:
+def add(first_number: int, second_number: int) -> int:
     """Return the sum of two integers.
 
     Args:
-        a: first integer
-        b: second integer
+        first_number(int): First integer
+        second_number(int): Second integer
 
     Returns:
-        The sum of `a` and `b`.
+         int: The sum of `first_number` and `second_number`.
     """
-    return a + b
+    return first_number + second_number
