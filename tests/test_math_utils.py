@@ -68,6 +68,10 @@ def test_multiply_returns_correct_result_for_valid_integers(
 @pytest.mark.parametrize(
     "func, a, b",
     [
+        # Float cases
+        (add, 2, 3.5),
+        (subtract, 1.5, 2),
+        (multiply, 2.0, 3),
         # String cases
         (add, "a", 1),
         (add, "a", "g"),
@@ -83,7 +87,7 @@ def test_multiply_returns_correct_result_for_valid_integers(
 )
 def test_operations_raise_type_error_for_invalid_inputs(func, a, b) -> None:
     """
-    Verify that add() and subtract() raise TypeError
+    Verify that add(), subtract() and multiply() raise TypeError
     when given non-integer inputs.
     """
     with pytest.raises(TypeError):
