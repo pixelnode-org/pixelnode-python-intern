@@ -1,5 +1,5 @@
 import pytest
-from src.app.math_utils import add, subtract, multiply
+from src.app.math_utils import add, divide, subtract, multiply
 
 ################################
 # Valid input tests
@@ -60,6 +60,23 @@ def test_multiply_returns_correct_result_for_valid_integers(
     assert multiply(a, b) == expected
 
 
+@pytest.mark.parametrize(
+    "a,b,expected",
+    [
+        (4, 2, 2),
+        (8, -2, -4),
+        (-9, -3, 3),
+    ],
+)
+def test_divide_returns_correct_result_for_valid_integers(
+    a: int, b: int, expected: int
+) -> None:
+    """
+    Verify that divide() returns the correct result for valid integer inputs
+    """
+    assert divide(a, b) == expected
+
+
 ################################
 # Invalid input tests
 ################################
@@ -72,23 +89,34 @@ def test_multiply_returns_correct_result_for_valid_integers(
         (add, 2, 3.5),
         (subtract, 1.5, 2),
         (multiply, 2.0, 3),
+        (divide, 2.4, 3),
         # String cases
         (add, "a", 1),
         (add, "a", "g"),
         (subtract, "a", 1),
         (multiply, "a", 1),
+        (divide, "a", 2),
         # Boolean cases
         (add, True, True),
         (add, 0, True),
         (add, True, 0),
         (subtract, True, 0),
         (multiply, True, 0),
+        (divide, True, 4),
     ],
 )
 def test_operations_raise_type_error_for_invalid_inputs(func, a, b) -> None:
     """
-    Verify that add(), subtract() and multiply() raise TypeError
+    Verify that add(), subtract(), multiply() and divide() raise TypeError
     when given non-integer inputs.
     """
     with pytest.raises(TypeError):
         func(a, b)
+
+
+def test_divide_raises_zero_division_error() -> None:
+    """
+    Verify that divide() raise ZeroDivisionError when divide by zero.
+    """
+    with pytest.raises(ZeroDivisionError):
+        divide(4, 0)
