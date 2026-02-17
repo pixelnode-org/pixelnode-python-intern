@@ -65,6 +65,7 @@ def test_multiply_returns_correct_result_for_valid_integers(
     [
         (4, 2, 2),
         (8, -2, -4),
+        (-5,2,-3),
         (-9, -3, 3),
     ],
 )
