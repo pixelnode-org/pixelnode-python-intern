@@ -9,7 +9,7 @@ from src.app.math_utils import add
 def test_add_returns_correct_result_for_valid_integers(
     num1: int, num2: int, expected: int
 ) -> None:
-    """ "
+    """ 
     verify that add()returns the correct results for valid integer inputs
     """
     assert add(num1, num2) == expected
