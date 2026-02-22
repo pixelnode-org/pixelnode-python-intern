@@ -8,7 +8,9 @@ def add(first_number: int, second_number: int) -> int:
 
     Returns:
          int: The sum of `first_number` and `second_number`.
+
     """
+    validate_integers(first_number,second_number)
     return first_number + second_number
 
 def validate_integers(first_number: int, second_number: int) -> int:
@@ -19,11 +21,11 @@ def validate_integers(first_number: int, second_number: int) -> int:
         first_number(int): First integer to validate 
         second_number(int): Second integer to validate 
 
-    Returns:
-         show error if either of the first and second number is not integers
+    Raise:Typeerror
+         Typeerror: show error if either of the first and second number is not integers
     
     """
-    if  type(first_number) is not int and type(second_number) is not int:
+    if  type(first_number) is not int or type(second_number) is not int:
         raise TypeError("both inputs must be integers")
     
         
