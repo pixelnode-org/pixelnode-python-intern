@@ -1,4 +1,10 @@
 # src/app/calculator_service.py
+"""
+calculator_service.py
+
+Provides class methods to perform arithemetic operation like addition,
+subtraction, multiplication, and division with strict integer validation.
+"""
 
 from src.app.math_utils import add, subtract, multiply, divide
 
@@ -20,5 +26,5 @@ class CalculatorService:
     def multiply(self, a: int, b: int) -> int:
         return multiply(a, b)
 
-    def divide(self, a: int, b: int) -> int:
+    def divide(self, a: int, b: int) -> float:
         return divide(a, b)
