@@ -102,6 +102,7 @@ def test_operations_raise_type_error_for_invalid_inputs(func, a, b) -> None:
     with pytest.raises(TypeError):
         func(a, b)
 
+
 def test_divide_raises_zero_division_error():
     """Verify that divide() raises ZeroDivisionError when the divisor is 0."""
     with pytest.raises(ZeroDivisionError):

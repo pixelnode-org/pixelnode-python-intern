@@ -21,7 +21,7 @@ def validate_integers(first_number: int, second_number: int) -> None:
         raise TypeError("Both inputs must be integers")
 
 
-def _execute_operation(first_number: int, second_number: int, operation) -> int :
+def _execute_operation(first_number: int, second_number: int, operation) -> int:
     """
     Validate inputs and execute the provided arithmetic operation.
 

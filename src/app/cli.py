@@ -25,9 +25,7 @@ def main() -> None:
     Handles:
         ZeroDivisionError: If division by zero is attempted.
     """
-    parser = argparse.ArgumentParser(
-        description="Simple Calculator CLI"
-    )
+    parser = argparse.ArgumentParser(description="Simple Calculator CLI")
 
     parser.add_argument(
         "operation",
