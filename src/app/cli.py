@@ -6,8 +6,14 @@ operations using the CalculatorService.
 """
 
 import argparse
+import logging
 from src.app.calculator_service import CalculatorService
 
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(levelname)s: %(message)s",
+)
 
 def main() -> None:
     """
@@ -52,10 +58,11 @@ def main() -> None:
     try:
         method = getattr(service, args.operation)
         result = method(args.first_number, args.second_number)
-        print(f"Result: {result}")
+        # print(f"Result: {result}")
+        logging.info("Result: %s", result)
 
     except ZeroDivisionError:
-        print("Error: Division by zero is not allowed.")
+        logging.error("Error: Division by zero is not allowed.")
 
 
 if __name__ == "__main__":
