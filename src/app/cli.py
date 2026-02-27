@@ -2,29 +2,29 @@
 cli.py
 
 Provides a command-line interface for performing arithmetic
-operations using the CalculatorService.
+operations using the CalculatorService with structured logging.
 """
 
 import argparse
 import logging
 from src.app.calculator_service import CalculatorService
 
-# Configure logging
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(levelname)s: %(message)s",
-)
-
 
 def main() -> None:
     """
     Execute the calculator CLI using parsed command-line arguments.
 
+    Optional Flags:
+        --verbose : Enables DEBUG-level logging.
+
     Logs:
         INFO: Displays the computed result.
         ERROR: Logs division by zero or invalid input errors.
+        DEBUG: Internal execution details when verbose mode is enabled.
     """
-    parser = argparse.ArgumentParser(description="Simple Calculator CLI")
+    parser = argparse.ArgumentParser(
+        description="Simple Calculator CLI"
+    )
 
     parser.add_argument(
         "operation",
@@ -44,13 +44,37 @@ def main() -> None:
         help="Second integer value",
     )
 
+    parser.add_argument(
+        "--verbose",
+        action="store_true",
+        help="Enable debug-level logging",
+    )
+
     args = parser.parse_args()
+
+    # Configure logging level based on verbose flag
+    log_level = logging.DEBUG if args.verbose else logging.INFO
+
+    logging.basicConfig(
+        level=log_level,
+        format="%(levelname)s: %(message)s",
+    )
 
     service = CalculatorService()
 
     try:
+        logging.debug(
+            "Calling service method '%s' with arguments: %s, %s",
+            args.operation,
+            args.first_number,
+            args.second_number,
+        )
+
         method = getattr(service, args.operation)
         result = method(args.first_number, args.second_number)
+
+        logging.debug("Service returned result: %s", result)
+
         logging.info("Result: %s", result)
 
     except ZeroDivisionError:
