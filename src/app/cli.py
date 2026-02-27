@@ -15,21 +15,14 @@ logging.basicConfig(
     format="%(levelname)s: %(message)s",
 )
 
+
 def main() -> None:
     """
-    Parse command-line arguments and execute the requested
-    arithmetic operation using CalculatorService.
+    Execute the calculator CLI using parsed command-line arguments.
 
-    Expected arguments:
-        operation: One of (add, subtract, multiply, divide)
-        first_number: First integer operand
-        second_number: Second integer operand
-
-    Prints:
-        The result of the operation.
-
-    Handles:
-        ZeroDivisionError: If division by zero is attempted.
+    Logs:
+        INFO: Displays the computed result.
+        ERROR: Logs division by zero or invalid input errors.
     """
     parser = argparse.ArgumentParser(description="Simple Calculator CLI")
 
@@ -58,11 +51,13 @@ def main() -> None:
     try:
         method = getattr(service, args.operation)
         result = method(args.first_number, args.second_number)
-        # print(f"Result: {result}")
         logging.info("Result: %s", result)
 
     except ZeroDivisionError:
-        logging.error("Error: Division by zero is not allowed.")
+        logging.error("Division by zero is not allowed.")
+
+    except TypeError:
+        logging.error("Both inputs must be integers.")
 
 
 if __name__ == "__main__":
