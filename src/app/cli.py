@@ -22,9 +22,7 @@ def main() -> None:
         ERROR: Logs division by zero or invalid input errors.
         DEBUG: Internal execution details when verbose mode is enabled.
     """
-    parser = argparse.ArgumentParser(
-        description="Simple Calculator CLI"
-    )
+    parser = argparse.ArgumentParser(description="Simple Calculator CLI")
 
     parser.add_argument(
         "operation",

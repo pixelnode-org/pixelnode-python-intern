@@ -32,7 +32,9 @@ def test_add_returns_correct_result_for_valid_integers(
 def test_subtract_returns_correct_result_for_valid_integers(
     a: int, b: int, expected: int
 ) -> None:
-    """Verify that subtract() returns the correct difference for valid integer inputs."""
+    """
+    Verify that subtract() returns the correct difference for valid integer inputs.
+    """
     assert subtract(a, b) == expected
 
 
