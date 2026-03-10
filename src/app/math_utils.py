@@ -101,3 +101,17 @@ def divide(first_number: int, second_number: int) -> float:
         return a / b
 
     return _execute_operation(first_number, second_number, division)
+
+
+def power(first_number: int, second_number: int) -> int:
+    """
+    Return the result of raising first_number to the power of second_number.
+
+    Parameters:
+        first_number (int): The first integer.
+        second_number (int): The second integer.
+
+    Returns:
+        int: The result of first_number ** second_number.
+    """
+    return _execute_operation(first_number, second_number, lambda a, b: a**b)

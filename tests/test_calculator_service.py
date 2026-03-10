@@ -38,6 +38,11 @@ def test_service_divide_delegates_correctly(calculator):
     assert calculator.divide(8, 2) == 4
 
 
+def test_service_power_delegates_correctly(calculator):
+    """Verify that power() correctly delegates to math_utils.divide."""
+    assert calculator.power(2, 3) == 8
+
+
 def test_service_propagates_type_error(calculator):
     """
     Verify that TypeError raised by math_utils

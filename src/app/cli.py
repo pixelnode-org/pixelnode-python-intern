@@ -26,7 +26,7 @@ def main() -> None:
 
     parser.add_argument(
         "operation",
-        choices=["add", "subtract", "multiply", "divide"],
+        choices=["add", "subtract", "multiply", "divide", "power"],
         help="Arithmetic operation to perform",
     )
 

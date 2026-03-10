@@ -6,7 +6,7 @@ Provides class methods to perform arithemetic operation like addition,
 subtraction, multiplication, and division with strict integer validation.
 """
 
-from src.app.math_utils import add, subtract, multiply, divide
+from src.app.math_utils import add, subtract, multiply, divide, power
 
 
 class CalculatorService:
@@ -28,3 +28,6 @@ class CalculatorService:
 
     def divide(self, a: int, b: int) -> float:
         return divide(a, b)
+
+    def power(self, a: int, b: int) -> float:
+        return power(a, b)
