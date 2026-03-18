@@ -1,8 +1,8 @@
 """
 cli.py
 
-Provides a command-line interface for performing arithmetic
-operations using the CalculatorService with structured logging.
+Command-line interface for performing arithmetic operations
+using CalculatorService with structured logging.
 """
 
 import argparse

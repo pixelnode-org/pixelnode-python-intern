@@ -1,9 +1,8 @@
-# src/app/calculator_service.py
 """
 calculator_service.py
 
-Provides class methods to perform arithemetic operation like addition,
-subtraction, multiplication, and division with strict integer validation.
+Provides a service layer that delegates arithmetic operations
+to math_utils functions.
 """
 
 from src.app.math_utils import add, subtract, multiply, divide, power

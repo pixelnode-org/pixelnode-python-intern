@@ -1,8 +1,9 @@
 """
 math_utils.py
 
-Provides basic arithmetic utility functions including addition,
-subtraction, multiplication, and division with strict integer validation.
+Provides arithmetic utility functions with strict integer validation.
+Includes operations such as addition, subtraction, multiplication,
+division, and exponentiation.
 """
 
 
@@ -108,10 +109,10 @@ def power(first_number: int, second_number: int) -> int:
     Return the result of raising first_number to the power of second_number.
 
     Parameters:
-        first_number (int): The first integer.
-        second_number (int): The second integer.
+        first_number (int): Base value.
+        second_number (int): Exponent value.
 
     Returns:
-        int: The result of first_number ** second_number.
+        float: Result of exponentiation.
     """
     return _execute_operation(first_number, second_number, lambda a, b: a**b)
