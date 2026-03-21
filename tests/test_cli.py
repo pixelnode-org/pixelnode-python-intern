@@ -55,3 +55,24 @@ def test_cli_invalid_input(monkeypatch):
 
     with pytest.raises(SystemExit):
         main()
+
+
+def test_cli_history(monkeypatch, caplog):
+    """
+    Verify that the CLI 'history' command logs an appropriate
+    message when no operations have been performed.
+
+    Ensures:
+    - CLI does not crash
+    - Informative message is displayed for empty history
+    """
+    monkeypatch.setattr(
+        sys,
+        "argv",
+        ["cli.py", "history"],
+    )
+
+    with caplog.at_level("INFO"):
+        main()
+
+    assert "No operations performed yet." in caplog.text

@@ -59,3 +59,22 @@ def test_service_propagates_zero_division(calculator):
     """
     with pytest.raises(ZeroDivisionError):
         calculator.divide(4, 0)
+
+
+def test_history_records_operations(calculator):
+    """
+    Verify that each calculator operation is recorded correctly
+    in the service history.
+
+    Ensures:
+    - Operations are appended in order
+    - Stored operation names match executed methods
+    """
+    calculator.add(2, 3)
+    calculator.multiply(4, 5)
+
+    history = calculator.get_history()
+
+    assert len(history) == 2
+    assert history[0]["operation"] == "add"
+    assert history[1]["operation"] == "multiply"

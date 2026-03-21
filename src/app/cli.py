@@ -26,19 +26,21 @@ def main() -> None:
 
     parser.add_argument(
         "operation",
-        choices=["add", "subtract", "multiply", "divide", "power"],
+        choices=["add", "subtract", "multiply", "divide", "power", "history"],
         help="Arithmetic operation to perform",
     )
 
     parser.add_argument(
         "first_number",
         type=int,
+        nargs="?",
         help="First integer value",
     )
 
     parser.add_argument(
         "second_number",
         type=int,
+        nargs="?",
         help="Second integer value",
     )
 
@@ -67,6 +69,28 @@ def main() -> None:
             args.first_number,
             args.second_number,
         )
+
+        if args.operation == "history":
+            history = service.get_history()
+
+            if not history:
+                logging.info("No operations performed yet.")
+
+            for i, entry in enumerate(history, start=1):
+                logging.info(
+                    "%d. %s %s = %s",
+                    i,
+                    entry["operation"],
+                    entry["inputs"],
+                    entry["result"],
+                )
+
+            return
+
+        # Validate inputs for other operations
+        if args.first_number is None or args.second_number is None:
+            logging.error("Both numbers are required for this operation.")
+            return
 
         method = getattr(service, args.operation)
         result = method(args.first_number, args.second_number)
