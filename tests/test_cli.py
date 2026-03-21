@@ -76,3 +76,16 @@ def test_cli_history(monkeypatch, caplog):
         main()
 
     assert "No operations performed yet." in caplog.text
+
+
+def test_cli_clear_history(monkeypatch, caplog):
+    monkeypatch.setattr(
+        sys,
+        "argv",
+        ["cli.py", "clear_history"],
+    )
+
+    with caplog.at_level("INFO"):
+        main()
+
+    assert "History cleared successfully." in caplog.text

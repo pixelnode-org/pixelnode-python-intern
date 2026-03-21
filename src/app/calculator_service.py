@@ -10,41 +10,57 @@ from src.app.math_utils import add, subtract, multiply, divide, power
 
 class CalculatorService:
     """
-    Service layer for arithmetic operations.
+    Service layer responsible for delegating arithmetic operations
+    to math_utils and maintaining operation history.
 
-    This class delegates arithmetic operations to the underlying
-    math_utils module without duplicating logic.
+    Attributes:
+        history (list): Stores executed operations.
+        max_history (int): Maximum number of history entries retained.
     """
 
     def __init__(self):
         self.history = []
+        self.max_history = 10
 
     def _record_operation(self, operation: str, a: int, b: int, result):
         """
-        Store a record of a performed operation in history.
+        Record an executed operation in the history.
 
         Parameters:
             operation (str): Name of the operation performed.
-            a (int): First input value.
-            b (int): Second input value.
+            a (int): First operand.
+            b (int): Second operand.
             result: Result of the operation.
+
+        Notes:
+            Maintains history size within max_history limit.
         """
         self.history.append(
             {
                 "operation": operation,
-                "inputs": [a, b],
+                "a": a,
+                "b": b,
                 "result": result,
             }
         )
 
+        if len(self.history) > self.max_history:
+            self.history.pop(0)
+
     def get_history(self):
         """
-        Return the list of all recorded operations.
+        Retrieve the list of recorded operations.
 
         Returns:
-            list: List of dictionaries containing operation details.
+            list: A list of dictionaries representing past operations.
         """
         return self.history
+
+    def clear_history(self):
+        """
+        Clear all stored operation history.
+        """
+        self.history.clear()
 
     def add(self, a: int, b: int) -> int:
         result = add(a, b)

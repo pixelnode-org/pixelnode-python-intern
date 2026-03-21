@@ -14,19 +14,32 @@ def main() -> None:
     """
     Execute the calculator CLI using parsed command-line arguments.
 
-    Optional Flags:
-        --verbose : Enables DEBUG-level logging.
+    Supported operations:
+        - add, subtract, multiply, divide, power
+        - history: display past operations
+        - clear_history: clear stored history
+
+    Optional flags:
+        --verbose : Enables DEBUG-level logging
 
     Logs:
-        INFO: Displays the computed result.
-        ERROR: Logs division by zero or invalid input errors.
-        DEBUG: Internal execution details when verbose mode is enabled.
+        INFO: Displays results and history
+        ERROR: Logs runtime errors (e.g., division by zero)
+        DEBUG: Internal execution details (verbose mode)
     """
     parser = argparse.ArgumentParser(description="Simple Calculator CLI")
 
     parser.add_argument(
         "operation",
-        choices=["add", "subtract", "multiply", "divide", "power", "history"],
+        choices=[
+            "add",
+            "subtract",
+            "multiply",
+            "divide",
+            "power",
+            "history",
+            "clear_history",
+        ],
         help="Arithmetic operation to perform",
     )
 
@@ -75,16 +88,24 @@ def main() -> None:
 
             if not history:
                 logging.info("No operations performed yet.")
+                return
+
+            logging.info("Operation History:")
 
             for i, entry in enumerate(history, start=1):
                 logging.info(
-                    "%d. %s %s = %s",
+                    "%d. %s(%s, %s) = %s",
                     i,
                     entry["operation"],
-                    entry["inputs"],
+                    entry["a"],
+                    entry["b"],
                     entry["result"],
                 )
+            return
 
+        if args.operation == "clear_history":
+            service.clear_history()
+            logging.info("History cleared successfully.")
             return
 
         # Validate inputs for other operations

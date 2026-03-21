@@ -78,3 +78,22 @@ def test_history_records_operations(calculator):
     assert len(history) == 2
     assert history[0]["operation"] == "add"
     assert history[1]["operation"] == "multiply"
+
+
+def test_clear_history(calculator):
+    calculator.add(2, 3)
+    calculator.clear_history()
+
+    assert calculator.get_history() == []
+
+
+def test_history_format(calculator):
+    calculator.add(2, 3)
+    history = calculator.get_history()
+
+    entry = history[0]
+
+    assert entry["operation"] == "add"
+    assert entry["a"] == 2
+    assert entry["b"] == 3
+    assert entry["result"] == 5
