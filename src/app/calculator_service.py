@@ -6,46 +6,63 @@ to math_utils functions.
 """
 
 from src.app.math_utils import add, subtract, multiply, divide, power
+import json
+from pathlib import Path
 
 
 class CalculatorService:
     """
     Service layer responsible for delegating arithmetic operations
-    to math_utils and maintaining operation history.
+    and maintaining persistent operation history.
 
-    Attributes:
-        history (list): Stores executed operations.
-        max_history (int): Maximum number of history entries retained.
+    History is stored in a JSON file and loaded on initialization.
     """
 
-    def __init__(self):
-        self.history = []
+    def __init__(self, history_file: str = "history.json"):
+        self.history_file = Path(history_file)
         self.max_history = 10
+        self.history = self._load_history()
 
-    def _record_operation(self, operation: str, a: int, b: int, result):
+    def _load_history(self):
         """
-        Record an executed operation in the history.
+        Load history from JSON file if it exists.
 
-        Parameters:
-            operation (str): Name of the operation performed.
-            a (int): First operand.
-            b (int): Second operand.
-            result: Result of the operation.
-
-        Notes:
-            Maintains history size within max_history limit.
+        Returns:
+            list: Previously stored operations.
         """
-        self.history.append(
-            {
-                "operation": operation,
-                "a": a,
-                "b": b,
-                "result": result,
-            }
-        )
+        if not self.history_file.exists():
+            return []
+
+        try:
+            with self.history_file.open("r") as f:
+                return json.load(f)
+        except (json.JSONDecodeError, OSError):
+            return []
+
+    def _save_history(self) -> None:
+        """
+        Persist current history to JSON file.
+        """
+        with self.history_file.open("w") as f:
+            json.dump(self.history, f, indent=2)
+
+    def _record_operation(self, operation: str, a: int, b: int, result) -> None:
+        """
+        Record an operation and persist it to file.
+        """
+        entry = {
+            "operation": operation,
+            "a": a,
+            "b": b,
+            "result": result,
+        }
+
+        self.history.append(entry)
 
         if len(self.history) > self.max_history:
             self.history.pop(0)
+
+        self._save_history()
 
     def get_history(self):
         """
@@ -56,11 +73,12 @@ class CalculatorService:
         """
         return self.history
 
-    def clear_history(self):
+    def clear_history(self) -> None:
         """
-        Clear all stored operation history.
+        Clear all stored history and update file.
         """
         self.history.clear()
+        self._save_history()
 
     def add(self, a: int, b: int) -> int:
         result = add(a, b)

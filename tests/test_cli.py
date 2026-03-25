@@ -9,6 +9,7 @@ import sys
 import pytest
 
 from src.app.cli import main
+from src.app.calculator_service import CalculatorService
 
 
 def test_cli_successful_operation(monkeypatch, caplog):
@@ -57,15 +58,17 @@ def test_cli_invalid_input(monkeypatch):
         main()
 
 
-def test_cli_history(monkeypatch, caplog):
-    """
-    Verify that the CLI 'history' command logs an appropriate
-    message when no operations have been performed.
+def test_cli_history(monkeypatch, caplog, tmp_path):
+    file = tmp_path / "history.json"
 
-    Ensures:
-    - CLI does not crash
-    - Informative message is displayed for empty history
-    """
+    def mock_service():
+        return CalculatorService(history_file=file)
+
+    monkeypatch.setattr(
+        "src.app.cli.CalculatorService",
+        mock_service,
+    )
+
     monkeypatch.setattr(
         sys,
         "argv",
