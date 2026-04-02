@@ -13,7 +13,7 @@ class HistoryManager:
     Manages loading, storing, and clearing operation history using a JSON file.
     """
 
-    def __init__(self, history_file: str = "history.json", max_history: int = 10):
+    def __init__(self, history_file: str, max_history: int):
         self.history_file = Path(history_file)
         self.max_history = max_history
         self.history = self._load_history()

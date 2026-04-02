@@ -11,7 +11,7 @@ def test_history_manager_add_operation(tmp_path):
     """Verify that an operation is correctly stored in history."""
     file = tmp_path / "history.json"
 
-    manager = HistoryManager(history_file=file)
+    manager = HistoryManager(history_file=file, max_history=10)
     manager.add_operation("add", 2, 3, 5)
 
     history = manager.get_history()
@@ -29,7 +29,7 @@ def test_history_manager_clear(tmp_path):
     """Verify that history is cleared and no entries remain."""
     file = tmp_path / "history.json"
 
-    manager = HistoryManager(history_file=file)
+    manager = HistoryManager(history_file=file, max_history=10)
     manager.add_operation("add", 1, 1, 2)
 
     manager.clear_history()
@@ -41,10 +41,10 @@ def test_history_manager_persistence(tmp_path):
     """Verify that history persists across service instances."""
     file = tmp_path / "history.json"
 
-    manager = HistoryManager(history_file=file)
+    manager = HistoryManager(history_file=file, max_history=10)
     manager.add_operation("add", 2, 3, 5)
 
-    new_manager = HistoryManager(history_file=file)
+    new_manager = HistoryManager(history_file=file, max_history=10)
 
     history = new_manager.get_history()
 

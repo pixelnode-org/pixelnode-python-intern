@@ -6,6 +6,7 @@ to math_utils functions.
 """
 
 from src.app.math_utils import add, subtract, multiply, divide, power
+from src.app.config import load_config
 from src.app.history_manager import HistoryManager
 
 
@@ -17,8 +18,13 @@ class CalculatorService:
     History is stored in a JSON file and loaded on initialization.
     """
 
-    def __init__(self, history_manager=None):
-        self.history_manager = history_manager or HistoryManager()
+    def __init__(self, config: dict | None = None):
+        self.config = config or load_config()
+
+        self.history_manager = HistoryManager(
+            history_file=self.config["history_file"],
+            max_history=self.config["max_history_size"],
+        )
 
     def get_history(self):
         return self.history_manager.get_history()

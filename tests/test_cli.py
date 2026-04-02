@@ -10,7 +10,6 @@ import pytest
 
 from src.app.cli import main
 from src.app.calculator_service import CalculatorService
-from src.app.history_manager import HistoryManager
 
 
 def test_cli_successful_operation(monkeypatch, caplog):
@@ -62,9 +61,12 @@ def test_cli_invalid_input(monkeypatch):
 def test_cli_history(monkeypatch, caplog, tmp_path):
     file = tmp_path / "history.json"
 
-    def mock_service():
-        manager = HistoryManager(history_file=file)
-        return CalculatorService(history_manager=manager)
+    def mock_service(*args, **kwargs):
+        config = {
+            "history_file": str(file),
+            "max_history_size": 10,
+        }
+        return CalculatorService(config=config)
 
     monkeypatch.setattr(
         "src.app.cli.CalculatorService",

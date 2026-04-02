@@ -7,6 +7,7 @@ using CalculatorService with structured logging.
 
 import argparse
 import logging
+from src.app.config import load_config
 from src.app.calculator_service import CalculatorService
 
 
@@ -73,7 +74,8 @@ def main() -> None:
         format="%(levelname)s: %(message)s",
     )
 
-    service = CalculatorService()
+    config = load_config()
+    service = CalculatorService(config=config)
 
     try:
         logging.debug(
