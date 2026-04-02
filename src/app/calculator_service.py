@@ -6,8 +6,7 @@ to math_utils functions.
 """
 
 from src.app.math_utils import add, subtract, multiply, divide, power
-import json
-from pathlib import Path
+from src.app.history_manager import HistoryManager
 
 
 class CalculatorService:
@@ -18,89 +17,36 @@ class CalculatorService:
     History is stored in a JSON file and loaded on initialization.
     """
 
-    def __init__(self, history_file: str = "history.json"):
-        self.history_file = Path(history_file)
-        self.max_history = 10
-        self.history = self._load_history()
-
-    def _load_history(self):
-        """
-        Load history from JSON file if it exists.
-
-        Returns:
-            list: Previously stored operations.
-        """
-        if not self.history_file.exists():
-            return []
-
-        try:
-            with self.history_file.open("r") as f:
-                return json.load(f)
-        except (json.JSONDecodeError, OSError):
-            return []
-
-    def _save_history(self) -> None:
-        """
-        Persist current history to JSON file.
-        """
-        with self.history_file.open("w") as f:
-            json.dump(self.history, f, indent=2)
-
-    def _record_operation(self, operation: str, a: int, b: int, result) -> None:
-        """
-        Record an operation and persist it to file.
-        """
-        entry = {
-            "operation": operation,
-            "a": a,
-            "b": b,
-            "result": result,
-        }
-
-        self.history.append(entry)
-
-        if len(self.history) > self.max_history:
-            self.history.pop(0)
-
-        self._save_history()
+    def __init__(self, history_manager=None):
+        self.history_manager = history_manager or HistoryManager()
 
     def get_history(self):
-        """
-        Retrieve the list of recorded operations.
+        return self.history_manager.get_history()
 
-        Returns:
-            list: A list of dictionaries representing past operations.
-        """
-        return self.history
-
-    def clear_history(self) -> None:
-        """
-        Clear all stored history and update file.
-        """
-        self.history.clear()
-        self._save_history()
+    def clear_history(self):
+        self.history_manager.clear_history()
 
     def add(self, a: int, b: int) -> int:
         result = add(a, b)
-        self._record_operation("add", a, b, result)
+        self.history_manager.add_operation("add", a, b, result)
         return add(a, b)
 
     def subtract(self, a: int, b: int) -> int:
         result = subtract(a, b)
-        self._record_operation("subtract", a, b, result)
+        self.history_manager.add_operation("subtract", a, b, result)
         return subtract(a, b)
 
     def multiply(self, a: int, b: int) -> int:
         result = multiply(a, b)
-        self._record_operation("multiply", a, b, result)
+        self.history_manager.add_operation("multiply", a, b, result)
         return multiply(a, b)
 
     def divide(self, a: int, b: int) -> float:
         result = divide(a, b)
-        self._record_operation("divide", a, b, result)
+        self.history_manager.add_operation("divide", a, b, result)
         return divide(a, b)
 
     def power(self, a: int, b: int) -> float:
         result = power(a, b)
-        self._record_operation("power", a, b, result)
+        self.history_manager.add_operation("power", a, b, result)
         return power(a, b)

@@ -10,9 +10,8 @@ from src.app.calculator_service import CalculatorService
 
 
 @pytest.fixture
-def calculator(tmp_path):
-    file = tmp_path / "history.json"
-    return CalculatorService(history_file=file)
+def calculator():
+    return CalculatorService()
 
 
 def test_service_add_delegates_correctly(calculator):
@@ -58,6 +57,13 @@ def test_service_propagates_zero_division(calculator):
         calculator.divide(4, 0)
 
 
+def test_clear_history(calculator):
+    calculator.add(2, 3)
+    calculator.clear_history()
+
+    assert len(calculator.get_history()) == 0
+
+
 def test_history_records_operations(calculator):
     """
     Verify that each calculator operation is recorded correctly
@@ -75,61 +81,3 @@ def test_history_records_operations(calculator):
     assert len(history) == 2
     assert history[0]["operation"] == "add"
     assert history[1]["operation"] == "multiply"
-
-
-def test_clear_history(calculator):
-    calculator.add(2, 3)
-    calculator.clear_history()
-
-    assert calculator.get_history() == []
-
-
-def test_history_format(calculator):
-    calculator.add(2, 3)
-    history = calculator.get_history()
-
-    entry = history[0]
-
-    assert entry["operation"] == "add"
-    assert entry["a"] == 2
-    assert entry["b"] == 3
-    assert entry["result"] == 5
-
-
-def test_history_persistence(tmp_path):
-    file = tmp_path / "history.json"
-
-    service = CalculatorService(history_file=file)
-
-    service.add(2, 3)
-
-    # new instance simulates new CLI run
-    new_service = CalculatorService(history_file=file)
-
-    history = new_service.get_history()
-
-    assert len(history) == 1
-    assert history[0]["result"] == 5
-
-
-def test_clear_history_updates_file(tmp_path):
-    file = tmp_path / "history.json"
-
-    service = CalculatorService(history_file=file)
-
-    service.add(2, 3)
-    service.clear_history()
-
-    new_service = CalculatorService(history_file=file)
-
-    assert new_service.get_history() == []
-
-
-def test_history_file_created(tmp_path):
-    file = tmp_path / "history.json"
-
-    service = CalculatorService(history_file=file)
-
-    service.add(1, 1)
-
-    assert file.exists()

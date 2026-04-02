@@ -10,6 +10,7 @@ import pytest
 
 from src.app.cli import main
 from src.app.calculator_service import CalculatorService
+from src.app.history_manager import HistoryManager
 
 
 def test_cli_successful_operation(monkeypatch, caplog):
@@ -62,7 +63,8 @@ def test_cli_history(monkeypatch, caplog, tmp_path):
     file = tmp_path / "history.json"
 
     def mock_service():
-        return CalculatorService(history_file=file)
+        manager = HistoryManager(history_file=file)
+        return CalculatorService(history_manager=manager)
 
     monkeypatch.setattr(
         "src.app.cli.CalculatorService",
