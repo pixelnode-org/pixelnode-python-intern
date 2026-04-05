@@ -9,6 +9,7 @@ import argparse
 import logging
 from src.app.config import load_config
 from src.app.calculator_service import CalculatorService
+from src.app.logging_config import setup_logging
 
 
 def main() -> None:
@@ -66,15 +67,15 @@ def main() -> None:
 
     args = parser.parse_args()
 
-    # Configure logging level based on verbose flag
+    config = load_config()
+
     log_level = logging.DEBUG if args.verbose else logging.INFO
 
-    logging.basicConfig(
+    setup_logging(
+        log_file=config.get("log_file", "app.log"),
         level=log_level,
-        format="%(levelname)s: %(message)s",
     )
 
-    config = load_config()
     service = CalculatorService(config=config)
 
     try:
