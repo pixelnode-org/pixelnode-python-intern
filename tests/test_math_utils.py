@@ -1,5 +1,5 @@
 import pytest
-from src.app.math_utils import add, subtract, multiply, divide
+from src.app.math_utils import add, subtract, multiply, divide, power
 
 ################################
 # Valid input tests
@@ -32,7 +32,9 @@ def test_add_returns_correct_result_for_valid_integers(
 def test_subtract_returns_correct_result_for_valid_integers(
     a: int, b: int, expected: int
 ) -> None:
-    """Verify that subtract() returns the correct difference for valid integer inputs."""
+    """
+    Verify that subtract() returns the correct difference for valid integer inputs.
+    """
     assert subtract(a, b) == expected
 
 
@@ -66,10 +68,17 @@ def test_divide_returns_correct_result_for_valid_integers(
     assert divide(a, b) == expected
 
 
-def test_divide_raises_zero_division_error():
-    """Verify that divide() raises ZeroDivisionError when the divisor is 0."""
-    with pytest.raises(ZeroDivisionError):
-        divide(10, 0)
+@pytest.mark.parametrize(
+    "a, b, expected",
+    [
+        (2, 3, 8),
+        (5, 0, 1),
+        (2, -1, 0.5),
+    ],
+)
+def test_power_returns_correct_result(a: int, b: int, expected: int):
+    """Verify that power() returns correct exponentiation results."""
+    assert power(a, b) == expected
 
 
 ################################
@@ -85,12 +94,14 @@ def test_divide_raises_zero_division_error():
         (subtract, 1.5, 2),
         (multiply, 2.0, 3),
         (divide, 10, 2.5),
+        (power, 2, 1.5),
         # String cases
         (add, "a", 1),
         (add, "a", "g"),
         (subtract, "a", 1),
         (multiply, "a", 1),
         (divide, "10", 2),
+        (power, "3", 2),
         # Boolean cases
         (add, True, True),
         (add, 0, True),
@@ -98,6 +109,7 @@ def test_divide_raises_zero_division_error():
         (subtract, True, 0),
         (multiply, True, 0),
         (divide, True, 2),
+        (power, True, 2),
     ],
 )
 def test_operations_raise_type_error_for_invalid_inputs(func, a, b) -> None:
@@ -107,3 +119,9 @@ def test_operations_raise_type_error_for_invalid_inputs(func, a, b) -> None:
     """
     with pytest.raises(TypeError):
         func(a, b)
+
+
+def test_divide_raises_zero_division_error():
+    """Verify that divide() raises ZeroDivisionError when the divisor is 0."""
+    with pytest.raises(ZeroDivisionError):
+        divide(10, 0)

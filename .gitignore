@@ -5,6 +5,7 @@ __pycache__/
 *.py[cod]
 *.pyo
 *.pyd
+.mypy_cache
 
 # Virtual environments
 venv/

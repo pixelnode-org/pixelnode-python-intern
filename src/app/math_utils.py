@@ -1,8 +1,9 @@
 """
 math_utils.py
 
-Provides basic arithmetic utility functions including addition,
-subtraction, multiplication, and division with strict integer validation.
+Provides arithmetic utility functions with strict integer validation.
+Includes operations such as addition, subtraction, multiplication,
+division, and exponentiation.
 """
 
 
@@ -21,6 +22,23 @@ def validate_integers(first_number: int, second_number: int) -> None:
         raise TypeError("Both inputs must be integers")
 
 
+def _execute_operation(first_number: int, second_number: int, operation) -> int:
+    """
+    Validate inputs and execute the provided arithmetic operation.
+
+    Parameters:
+        first_number (int): The first operand.
+        second_number (int): The second operand.
+        operation(function) : A function that performs
+            the arithmetic operation.
+
+    Returns:
+        int: The result of the provided operation.
+    """
+    validate_integers(first_number, second_number)
+    return operation(first_number, second_number)
+
+
 def add(first_number: int, second_number: int) -> int:
     """
     Return the sum of two integers.
@@ -32,8 +50,7 @@ def add(first_number: int, second_number: int) -> int:
     Returns:
         int: The sum of first_number and second_number.
     """
-    validate_integers(first_number, second_number)
-    return first_number + second_number
+    return _execute_operation(first_number, second_number, lambda a, b: a + b)
 
 
 def subtract(first_number: int, second_number: int) -> int:
@@ -47,8 +64,7 @@ def subtract(first_number: int, second_number: int) -> int:
     Returns:
         int: The result of first_number - second_number.
     """
-    validate_integers(first_number, second_number)
-    return first_number - second_number
+    return _execute_operation(first_number, second_number, lambda a, b: a - b)
 
 
 def multiply(first_number: int, second_number: int) -> int:
@@ -62,8 +78,7 @@ def multiply(first_number: int, second_number: int) -> int:
     Returns:
         int: The result of first_number * second_number.
     """
-    validate_integers(first_number, second_number)
-    return first_number * second_number
+    return _execute_operation(first_number, second_number, lambda a, b: a * b)
 
 
 def divide(first_number: int, second_number: int) -> float:
@@ -79,11 +94,25 @@ def divide(first_number: int, second_number: int) -> float:
 
     Raises:
         ZeroDivisionError: If the second_number is zero.
-        TypeError: If inputs are not integers.
     """
-    validate_integers(first_number, second_number)
 
-    if second_number == 0:
-        raise ZeroDivisionError("Cannot divide by zero")
+    def division(a, b):
+        if b == 0:
+            raise ZeroDivisionError("Cannot divide by zero")
+        return a / b
 
-    return first_number / second_number
+    return _execute_operation(first_number, second_number, division)
+
+
+def power(first_number: int, second_number: int) -> int:
+    """
+    Return the result of raising first_number to the power of second_number.
+
+    Parameters:
+        first_number (int): Base value.
+        second_number (int): Exponent value.
+
+    Returns:
+        float: Result of exponentiation.
+    """
+    return _execute_operation(first_number, second_number, lambda a, b: a**b)
