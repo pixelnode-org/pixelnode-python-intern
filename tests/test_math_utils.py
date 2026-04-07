@@ -1,5 +1,6 @@
 import pytest
 from src.app.math_utils import add, subtract, multiply, divide, power
+from src.app.exceptions import InvalidInputError, DivisionByZeroError
 
 ################################
 # Valid input tests
@@ -114,14 +115,14 @@ def test_power_returns_correct_result(a: int, b: int, expected: int):
 )
 def test_operations_raise_type_error_for_invalid_inputs(func, a, b) -> None:
     """
-    Verify that all math utility functions raise TypeError
+    Verify that all math utility functions raise InvalidInputError
     when provided with non-integer inputs.
     """
-    with pytest.raises(TypeError):
+    with pytest.raises(InvalidInputError):
         func(a, b)
 
 
 def test_divide_raises_zero_division_error():
-    """Verify that divide() raises ZeroDivisionError when the divisor is 0."""
-    with pytest.raises(ZeroDivisionError):
+    """Verify that divide() raises DivisionByZeroError when the divisor is 0."""
+    with pytest.raises(DivisionByZeroError):
         divide(10, 0)

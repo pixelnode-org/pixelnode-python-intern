@@ -35,24 +35,24 @@ class CalculatorService:
     def add(self, a: int, b: int) -> int:
         result = add(a, b)
         self.history_manager.add_operation("add", a, b, result)
-        return add(a, b)
+        return result
 
     def subtract(self, a: int, b: int) -> int:
         result = subtract(a, b)
         self.history_manager.add_operation("subtract", a, b, result)
-        return subtract(a, b)
+        return result
 
     def multiply(self, a: int, b: int) -> int:
         result = multiply(a, b)
         self.history_manager.add_operation("multiply", a, b, result)
-        return multiply(a, b)
+        return result
 
     def divide(self, a: int, b: int) -> float:
         result = divide(a, b)
         self.history_manager.add_operation("divide", a, b, result)
-        return divide(a, b)
+        return result
 
     def power(self, a: int, b: int) -> float:
         result = power(a, b)
         self.history_manager.add_operation("power", a, b, result)
-        return power(a, b)
+        return result

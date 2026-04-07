@@ -7,6 +7,7 @@ using CalculatorService with structured logging.
 
 import argparse
 import logging
+from src.app.exceptions import CalculatorError
 from src.app.config import load_config
 from src.app.calculator_service import CalculatorService
 from src.app.logging_config import setup_logging
@@ -17,16 +18,19 @@ def main() -> None:
     Execute the calculator CLI using parsed command-line arguments.
 
     Supported operations:
-        - add, subtract, multiply, divide, power
-        - history: display past operations
-        - clear_history: clear stored history
+        add, subtract, multiply, divide, power
+        history, clear_history
 
     Optional flags:
         --verbose : Enables DEBUG-level logging
 
+    Error Handling:
+        All application errors are handled using custom exceptions
+        derived from CalculatorError.
+
     Logs:
-        INFO: Displays results and history
-        ERROR: Logs runtime errors (e.g., division by zero)
+        INFO: Successful results and history output
+        ERROR: Application-level errors (e.g., invalid input, division by zero)
         DEBUG: Internal execution details (verbose mode)
     """
     parser = argparse.ArgumentParser(description="Simple Calculator CLI")
@@ -123,11 +127,8 @@ def main() -> None:
 
         logging.info("Result: %s", result)
 
-    except ZeroDivisionError:
-        logging.error("Division by zero is not allowed.")
-
-    except TypeError:
-        logging.error("Both inputs must be integers.")
+    except CalculatorError as e:
+        logging.error("Error: %s", e)
 
 
 if __name__ == "__main__":

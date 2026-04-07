@@ -41,7 +41,7 @@ def test_cli_division_by_zero(monkeypatch, caplog):
     with caplog.at_level("ERROR"):
         main()
 
-    assert "Division by zero is not allowed." in caplog.text
+    assert "Cannot divide by zero" in caplog.text
 
 
 def test_cli_invalid_input(monkeypatch):

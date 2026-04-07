@@ -6,20 +6,22 @@ Includes operations such as addition, subtraction, multiplication,
 division, and exponentiation.
 """
 
+from src.app.exceptions import InvalidInputError, DivisionByZeroError
+
 
 def validate_integers(first_number: int, second_number: int) -> None:
     """
-    Validate that both inputs are of the integer type.
+    Validate that both inputs are integers.
 
     Parameters:
-        first_number: The first value to check.
-        second_number: The second value to check.
+        first_number (int): First input value.
+        second_number (int): Second input value.
 
     Raises:
-        TypeError: If either input is not an instance of int.
+        InvalidInputError: If either input is not an integer.
     """
     if type(first_number) is not int or type(second_number) is not int:
-        raise TypeError("Both inputs must be integers")
+        raise InvalidInputError("Both inputs must be integers")
 
 
 def _execute_operation(first_number: int, second_number: int, operation) -> int:
@@ -44,11 +46,14 @@ def add(first_number: int, second_number: int) -> int:
     Return the sum of two integers.
 
     Parameters:
-        first_number (int): The first integer.
-        second_number (int): The second integer.
+        first_number (int): First integer.
+        second_number (int): Second integer.
 
     Returns:
-        int: The sum of first_number and second_number.
+        int: Sum of the two integers.
+
+    Raises:
+        InvalidInputError: If inputs are not integers.
     """
     return _execute_operation(first_number, second_number, lambda a, b: a + b)
 
@@ -63,6 +68,9 @@ def subtract(first_number: int, second_number: int) -> int:
 
     Returns:
         int: The result of first_number - second_number.
+
+    Raises:
+        InvalidInputError: If inputs are not integers.
     """
     return _execute_operation(first_number, second_number, lambda a, b: a - b)
 
@@ -77,29 +85,34 @@ def multiply(first_number: int, second_number: int) -> int:
 
     Returns:
         int: The result of first_number * second_number.
+
+    Raises:
+        InvalidInputError: If inputs are not integers.
     """
     return _execute_operation(first_number, second_number, lambda a, b: a * b)
 
 
 def divide(first_number: int, second_number: int) -> float:
     """
-    Return the quotient of two integers as a float.
+    Return the result of dividing two integers.
 
     Parameters:
-        first_number (int): The dividend.
-        second_number (int): The divisor.
+        first_number (int): Dividend.
+        second_number (int): Divisor.
 
     Returns:
-        float: The result of first_number / second_number.
+        float: Result of division.
 
     Raises:
-        ZeroDivisionError: If the second_number is zero.
+        InvalidInputError: If inputs are not integers.
+        DivisionByZeroError: If divisor is zero.
     """
 
-    def division(a, b):
-        if b == 0:
-            raise ZeroDivisionError("Cannot divide by zero")
-        return a / b
+    def division(first_number, second_number):
+        if second_number == 0:
+            raise DivisionByZeroError("Cannot divide by zero")
+
+        return first_number / second_number
 
     return _execute_operation(first_number, second_number, division)
 
@@ -114,5 +127,8 @@ def power(first_number: int, second_number: int) -> int:
 
     Returns:
         float: Result of exponentiation.
+
+    Raises:
+        InvalidInputError: If inputs are not integer
     """
     return _execute_operation(first_number, second_number, lambda a, b: a**b)
