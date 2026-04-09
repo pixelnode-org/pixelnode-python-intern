@@ -12,10 +12,7 @@ from src.app.cli import main
 from src.app.calculator_service import CalculatorService
 
 
-def test_cli_successful_operation(monkeypatch, caplog):
-    """
-    Verify that a valid CLI operation logs the correct result.
-    """
+def test_cli_add_subcommand(monkeypatch, caplog):
     monkeypatch.setattr(
         sys,
         "argv",
@@ -44,21 +41,18 @@ def test_cli_division_by_zero(monkeypatch, caplog):
     assert "Cannot divide by zero" in caplog.text
 
 
-def test_cli_invalid_input(monkeypatch):
-    """
-    Verify that invalid input causes argparse to exit.
-    """
+def test_cli_invalid_command(monkeypatch):
     monkeypatch.setattr(
         sys,
         "argv",
-        ["cli.py", "add", "a", "2"],
+        ["cli.py", "invalid"],
     )
 
     with pytest.raises(SystemExit):
         main()
 
 
-def test_cli_history(monkeypatch, caplog, tmp_path):
+def test_cli_history_subcommand(monkeypatch, caplog, tmp_path):
     file = tmp_path / "history.json"
 
     def mock_service(*args, **kwargs):
@@ -85,7 +79,7 @@ def test_cli_history(monkeypatch, caplog, tmp_path):
     assert "No operations performed yet." in caplog.text
 
 
-def test_cli_clear_history(monkeypatch, caplog):
+def test_cli_clear_history_subcommand(monkeypatch, caplog):
     monkeypatch.setattr(
         sys,
         "argv",
