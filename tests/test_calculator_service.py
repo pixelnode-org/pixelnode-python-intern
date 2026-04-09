@@ -6,8 +6,8 @@ to math_utils functions and proper exception propagation.
 """
 
 import pytest
-from src.app.calculator_service import CalculatorService
-from src.app.exceptions import InvalidInputError, DivisionByZeroError
+from app.calculator_service import CalculatorService
+from app.exceptions import InvalidInputError, DivisionByZeroError
 
 
 @pytest.fixture
@@ -40,7 +40,7 @@ def test_service_power_delegates_correctly(calculator):
     assert calculator.power(2, 3) == 8
 
 
-def test_service_propagates_invalid_input_error(calculator):
+def test_service_propagates_invalid_i_error(calculator):
     """
     Verify that InvalidInputError raised by math_utils
     is propagated through the service layer.

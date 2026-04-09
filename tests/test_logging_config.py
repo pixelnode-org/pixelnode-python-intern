@@ -1,5 +1,5 @@
 import logging
-from src.app.logging_config import setup_logging
+from app.logging_config import setup_logging
 
 
 def test_logging_writes_to_file(tmp_path):

@@ -7,19 +7,17 @@ Command-line interface for calculator using subcommands.
 import argparse
 import logging
 
-from src.app.calculator_service import CalculatorService
-from src.app.config import load_config
-from src.app.logging_config import setup_logging
-from src.app.exceptions import CalculatorError
+from app.calculator_service import CalculatorService
+from app.config import load_config
+from app.logging_config import setup_logging
+from app.exceptions import CalculatorError
 
 
 def main() -> None:
     """
     Execute CLI using subcommands for each operation.
     """
-    parser = argparse.ArgumentParser(
-        description="Command-line calculator supporting arithmetic operations and history management"
-    )
+    parser = argparse.ArgumentParser(description="Calculator CLI with subcommands")
 
     parser.add_argument(
         "--verbose",
@@ -27,11 +25,20 @@ def main() -> None:
         help="Enable debug logging",
     )
 
-    subparsers = parser.add_subparsers(dest="command", required=True, title="Available Commands")
+    subparsers = parser.add_subparsers(
+        dest="command", required=True, title="Available Commands"
+    )
 
     # Helper to add arithmetic commands
     def add_operation_parser(name):
-        subparser = subparsers.add_parser(name, help="raise first number to the power of second".title() if name == 'power' else f"{name.title()} two numbers")
+        subparser = subparsers.add_parser(
+            name,
+            help=(
+                "raise first number to the power of second".title()
+                if name == "power"
+                else f"{name.title()} two numbers"
+            ),
+        )
         subparser.add_argument("a", type=int, help="First integer")
         subparser.add_argument("b", type=int, help="Second integer")
         return subparser

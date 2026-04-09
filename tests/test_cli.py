@@ -8,8 +8,8 @@ error handling, and logging behavior.
 import sys
 import pytest
 
-from src.app.cli import main
-from src.app.calculator_service import CalculatorService
+from app.cli import main
+from app.calculator_service import CalculatorService
 
 
 def test_cli_add_subcommand(monkeypatch, caplog):
@@ -79,7 +79,7 @@ def test_cli_history_subcommand(monkeypatch, caplog, tmp_path):
     assert "No operations performed yet." in caplog.text
 
 
-def test_cli_clear_history_subcommand(monkeypatch, caplog):
+def test_cli_clear_history_subcom(monkeypatch, caplog):
     monkeypatch.setattr(
         sys,
         "argv",

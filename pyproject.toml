@@ -10,3 +10,21 @@ exclude = '''
   | \.pytest_cache
 )/
 '''
+
+[project]
+name = "calculator-cli"
+version = "0.1.0"
+description = "A modular CLI calculator"
+authors = [
+    { name = "Akhil Singh" }
+]
+readme = "README.md"
+requires-python = ">=3.10"
+
+dependencies = []
+
+[project.scripts]
+calculator = "app.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
