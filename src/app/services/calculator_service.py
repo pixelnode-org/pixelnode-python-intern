@@ -5,9 +5,9 @@ Provides a service layer that delegates arithmetic operations
 to math_utils functions.
 """
 
-from app.math_utils import add, subtract, multiply, divide, power
+from app.utils.math_utils import add, subtract, multiply, divide, power
 from app.config import load_config
-from app.history_manager import HistoryManager
+from app.history.history_manager import HistoryManager
 
 
 class CalculatorService:

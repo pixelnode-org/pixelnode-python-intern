@@ -6,8 +6,8 @@ to math_utils functions and proper exception propagation.
 """
 
 import pytest
-from app.calculator_service import CalculatorService
-from app.exceptions import InvalidInputError, DivisionByZeroError
+from app.services.calculator_service import CalculatorService
+from app.core.exceptions import InvalidInputError, DivisionByZeroError
 
 
 @pytest.fixture

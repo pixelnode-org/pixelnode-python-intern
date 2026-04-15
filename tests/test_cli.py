@@ -9,7 +9,7 @@ import sys
 import pytest
 
 from app.cli import main
-from app.calculator_service import CalculatorService
+from app.services.calculator_service import CalculatorService
 
 
 def test_cli_add_subcommand(monkeypatch, caplog):
@@ -55,17 +55,9 @@ def test_cli_invalid_command(monkeypatch):
 def test_cli_history_subcommand(monkeypatch, caplog, tmp_path):
     file = tmp_path / "history.json"
 
-    def mock_service(*args, **kwargs):
-        config = {
-            "history_file": str(file),
-            "max_history_size": 10,
-        }
-        return CalculatorService(config=config)
+    file.write_text("[]")
 
-    monkeypatch.setattr(
-        "src.app.cli.CalculatorService",
-        mock_service,
-    )
+    monkeypatch.setenv("HISTORY_FILE", str(file))
 
     monkeypatch.setattr(
         sys,
@@ -77,7 +69,6 @@ def test_cli_history_subcommand(monkeypatch, caplog, tmp_path):
         main()
 
     assert "No operations performed yet." in caplog.text
-
 
 def test_cli_clear_history_subcom(monkeypatch, caplog):
     monkeypatch.setattr(

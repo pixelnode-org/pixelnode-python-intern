@@ -7,10 +7,10 @@ Command-line interface for calculator using subcommands.
 import argparse
 import logging
 
-from app.calculator_service import CalculatorService
+from app.services.calculator_service import CalculatorService
 from app.config import load_config
 from app.logging_config import setup_logging
-from app.exceptions import CalculatorError
+from app.core.exceptions import CalculatorError
 
 
 def main() -> None:

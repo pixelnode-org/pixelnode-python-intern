@@ -6,7 +6,7 @@ Includes operations such as addition, subtraction, multiplication,
 division, and exponentiation.
 """
 
-from app.exceptions import InvalidInputError, DivisionByZeroError
+from app.core.exceptions import InvalidInputError, DivisionByZeroError
 
 
 def validate_integers(first_number: int, second_number: int) -> None:

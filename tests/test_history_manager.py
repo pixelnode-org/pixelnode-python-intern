@@ -4,7 +4,7 @@ Tests for HistoryManager functionality.
 Covers operation recording, persistence, and clearing behavior.
 """
 
-from app.history_manager import HistoryManager
+from app.history.history_manager import HistoryManager
 
 
 def test_history_manager_add_operation(tmp_path):
