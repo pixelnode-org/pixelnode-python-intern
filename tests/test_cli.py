@@ -8,14 +8,10 @@ error handling, and logging behavior.
 import sys
 import pytest
 
-from src.app.cli import main
-from src.app.calculator_service import CalculatorService
+from app.cli import main
 
 
-def test_cli_successful_operation(monkeypatch, caplog):
-    """
-    Verify that a valid CLI operation logs the correct result.
-    """
+def test_cli_add_subcommand(monkeypatch, caplog):
     monkeypatch.setattr(
         sys,
         "argv",
@@ -41,37 +37,26 @@ def test_cli_division_by_zero(monkeypatch, caplog):
     with caplog.at_level("ERROR"):
         main()
 
-    assert "Division by zero is not allowed." in caplog.text
+    assert "Cannot divide by zero" in caplog.text
 
 
-def test_cli_invalid_input(monkeypatch):
-    """
-    Verify that invalid input causes argparse to exit.
-    """
+def test_cli_invalid_command(monkeypatch):
     monkeypatch.setattr(
         sys,
         "argv",
-        ["cli.py", "add", "a", "2"],
+        ["cli.py", "invalid"],
     )
 
     with pytest.raises(SystemExit):
         main()
 
 
-def test_cli_history(monkeypatch, caplog, tmp_path):
+def test_cli_history_subcommand(monkeypatch, caplog, tmp_path):
     file = tmp_path / "history.json"
 
-    def mock_service(*args, **kwargs):
-        config = {
-            "history_file": str(file),
-            "max_history_size": 10,
-        }
-        return CalculatorService(config=config)
+    file.write_text("[]")
 
-    monkeypatch.setattr(
-        "src.app.cli.CalculatorService",
-        mock_service,
-    )
+    monkeypatch.setenv("HISTORY_FILE", str(file))
 
     monkeypatch.setattr(
         sys,
@@ -85,7 +70,7 @@ def test_cli_history(monkeypatch, caplog, tmp_path):
     assert "No operations performed yet." in caplog.text
 
 
-def test_cli_clear_history(monkeypatch, caplog):
+def test_cli_clear_history_subcom(monkeypatch, caplog):
     monkeypatch.setattr(
         sys,
         "argv",
