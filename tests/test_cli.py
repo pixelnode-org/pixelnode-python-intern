@@ -9,7 +9,6 @@ import sys
 import pytest
 
 from app.cli import main
-from app.services.calculator_service import CalculatorService
 
 
 def test_cli_add_subcommand(monkeypatch, caplog):
@@ -69,6 +68,7 @@ def test_cli_history_subcommand(monkeypatch, caplog, tmp_path):
         main()
 
     assert "No operations performed yet." in caplog.text
+
 
 def test_cli_clear_history_subcom(monkeypatch, caplog):
     monkeypatch.setattr(

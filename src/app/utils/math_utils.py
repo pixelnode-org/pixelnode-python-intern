@@ -21,7 +21,7 @@ def validate_integers(first_number: int, second_number: int) -> None:
         InvalidInputError: If either input is not an integer.
     """
     if type(first_number) is not int or type(second_number) is not int:
-        raise InvalidInputError("Both inputs must be integers")
+        raise InvalidInputError()
 
 
 def _execute_operation(first_number: int, second_number: int, operation) -> int:
@@ -110,7 +110,7 @@ def divide(first_number: int, second_number: int) -> float:
 
     def division(first_number, second_number):
         if second_number == 0:
-            raise DivisionByZeroError("Cannot divide by zero")
+            raise DivisionByZeroError()
 
         return first_number / second_number
 

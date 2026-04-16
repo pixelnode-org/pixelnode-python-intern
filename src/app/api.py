@@ -7,71 +7,47 @@ and exception-to-HTTP mapping while delegating all business logic to
 the service layer.
 """
 
-from fastapi import FastAPI, HTTPException
-from pydantic import BaseModel
+from fastapi import FastAPI, Request
+from fastapi.responses import JSONResponse
+from app.schemas import OperationRequest, OperationResponse
 
-from src.app.services.calculator_service import CalculatorService
-from src.app.core.exceptions import (
-    CalculatorError,
-    InvalidInputError,
-    DivisionByZeroError,
-)
-from src.app.config import get_config
+from app.services.calculator_service import CalculatorService
+from app.core.exceptions import CalculatorError
 
+from app.config import load_config
 
 app = FastAPI(title="Calculator API")
 
 
-config = get_config()
+config = load_config()
 service = CalculatorService(config=config)
 
 
-class OperationRequest(BaseModel):
+@app.exception_handler(CalculatorError)
+async def handle_calculator_errors(request: Request, exc: CalculatorError):
     """
-    Request payload for arithmetic operations.
+    Convert domain-level errors into HTTP 400 responses.
 
-    Attributes:
-        a (int): First operand.
-        b (int): Second operand.
+    Returns:
+        JSONResponse: {"detail": <error message>}
     """
-    a: int
-    b: int
+    return JSONResponse(
+        status_code=400,
+        content={"detail": str(exc)},
+    )
 
 
-class OperationResponse(BaseModel):
+@app.exception_handler(Exception)
+async def handle_unexpected_errors(request: Request, exc: Exception):
     """
-    Standard response for arithmetic operations.
+    Catch unhandled exceptions and return a generic HTTP 500 response.
 
-    Attributes:
-        result (int): Computed result of the operation.
+    Prevents internal error details from leaking to clients.
     """
-    result: int
-
-
-def handle_exception(e: Exception):
-    """
-    Map domain-specific exceptions to HTTP responses.
-
-    Args:
-        e (Exception): Exception raised during service execution.
-
-    Raises:
-        HTTPException: Translated HTTP error response.
-
-    Mapping:
-        - InvalidInputError → 400 Bad Request
-        - DivisionByZeroError → 400 Bad Request
-        - CalculatorError → 400 Bad Request
-        - Any other exception → 500 Internal Server Error
-    """
-    if isinstance(e, InvalidInputError):
-        raise HTTPException(status_code=400, detail=str(e))
-    elif isinstance(e, DivisionByZeroError):
-        raise HTTPException(status_code=400, detail=str(e))
-    elif isinstance(e, CalculatorError):
-        raise HTTPException(status_code=400, detail=str(e))
-    else:
-        raise HTTPException(status_code=500, detail="Internal Server Error")
+    return JSONResponse(
+        status_code=500,
+        content={"detail": "Internal Server Error"},
+    )
 
 
 @app.post("/add", response_model=OperationResponse)
@@ -85,16 +61,9 @@ def add(req: OperationRequest):
 
     Returns:
         OperationResponse: Result of addition
-
-    Errors:
-        400: Invalid input
-        500: Internal server error
     """
-    try:
-        result = service.add(req.a, req.b)
-        return {"result": result}
-    except Exception as e:
-        handle_exception(e)
+    result = service.add(req.a, req.b)
+    return {"result": result}
 
 
 @app.post("/subtract", response_model=OperationResponse)
@@ -108,16 +77,9 @@ def subtract(req: OperationRequest):
 
     Returns:
         OperationResponse: Result of subtraction
-
-    Errors:
-        400: Invalid input
-        500: Internal server error
     """
-    try:
-        result = service.subtract(req.a, req.b)
-        return {"result": result}
-    except Exception as e:
-        handle_exception(e)
+    result = service.subtract(req.a, req.b)
+    return {"result": result}
 
 
 @app.post("/multiply", response_model=OperationResponse)
@@ -131,16 +93,9 @@ def multiply(req: OperationRequest):
 
     Returns:
         OperationResponse: Result of multiplication
-
-    Errors:
-        400: Invalid input
-        500: Internal server error
     """
-    try:
-        result = service.multiply(req.a, req.b)
-        return {"result": result}
-    except Exception as e:
-        handle_exception(e)
+    result = service.multiply(req.a, req.b)
+    return {"result": result}
 
 
 @app.post("/divide", response_model=OperationResponse)
@@ -154,16 +109,9 @@ def divide(req: OperationRequest):
 
     Returns:
         OperationResponse: Result of division
-
-    Errors:
-        400: Invalid input or division by zero
-        500: Internal server error
     """
-    try:
-        result = service.divide(req.a, req.b)
-        return {"result": result}
-    except Exception as e:
-        handle_exception(e)
+    result = service.divide(req.a, req.b)
+    return {"result": result}
 
 
 @app.post("/power", response_model=OperationResponse)
@@ -177,13 +125,6 @@ def power(req: OperationRequest):
 
     Returns:
         OperationResponse: Result of exponentiation
-
-    Errors:
-        400: Invalid input
-        500: Internal server error
     """
-    try:
-        result = service.power(req.a, req.b)
-        return {"result": result}
-    except Exception as e:
-        handle_exception(e)
+    result = service.power(req.a, req.b)
+    return {"result": result}
